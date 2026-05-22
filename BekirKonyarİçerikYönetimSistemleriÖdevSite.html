@@ -1,0 +1,848 @@
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MotoTürkiye | Motorsiklet Dünyası</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#FF6B00;--orange-d:#CC5500;--orange-l:#FF8C3A;--orange-glow:rgba(255,107,0,.35);
+  --white:#FFFFFF;--black:#0A0A0A;--dark:#111111;--card:#161616;--card2:#1C1C1C;
+  --border:#2A2A2A;--border2:#333;--muted:#777;--muted2:#555;
+}
+html,body{font-family:'Rajdhani',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;min-height:100vh;scroll-behavior:smooth}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px}
+
+#currencyBar{
+  position:sticky;top:0;z-index:1000;
+  background:#0D0D0D;border-bottom:2px solid var(--orange);
+  height:36px;overflow:hidden;display:flex;align-items:center;
+}
+.ticker-track{
+  display:flex;gap:0;white-space:nowrap;
+  animation:tick 40s linear infinite;
+}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick-item{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0 28px;border-right:1px solid #222;
+  font-size:13px;font-weight:600;letter-spacing:.5px;
+}
+.tick-label{color:var(--orange);font-weight:700;font-size:12px;letter-spacing:1.5px}
+.tick-val{color:var(--white)}
+.tick-chg.up{color:#4CAF50}.tick-chg.dn{color:#f44336}
+.tick-flag{font-size:15px}
+
+.site-header{
+  background:linear-gradient(180deg,#111 0%,#0D0D0D 100%);
+  padding:14px 50px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid #1E1E1E;position:relative;
+}
+.site-header::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.logo{font-family:'Bebas Neue',cursive;font-size:38px;letter-spacing:4px;
+  background:linear-gradient(135deg,#fff 30%,var(--orange));-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;text-shadow:none;cursor:pointer}
+.header-right{display:flex;align-items:center;gap:20px}
+.header-tag{color:var(--muted);font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.header-badge{background:var(--orange);color:#fff;font-size:11px;font-weight:700;
+  letter-spacing:2px;padding:4px 12px;border-radius:20px;text-transform:uppercase}
+
+.page{display:none;animation:pgIn .35s ease}
+.page.active{display:block}
+@keyframes pgIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{
+  min-height:420px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;position:relative;overflow:hidden;
+  padding:80px 40px 60px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(255,107,0,.12) 0%,transparent 70%),
+    linear-gradient(180deg,#111 0%,#0A0A0A 100%);
+}
+.hero-lines{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hero-line{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,0,.15),transparent)}
+.hero-line:nth-child(1){top:25%;width:100%}
+.hero-line:nth-child(2){top:50%;width:80%;left:10%}
+.hero-line:nth-child(3){top:75%;width:60%;left:20%}
+.hero-content{position:relative;z-index:1}
+.hero-sup{color:var(--orange);font-size:12px;letter-spacing:6px;text-transform:uppercase;
+  font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.hero-sup::before,.hero-sup::after{content:'';flex:1;height:1px;background:var(--orange);max-width:60px}
+.hero-title{font-family:'Bebas Neue',cursive;line-height:.88;letter-spacing:4px;margin-bottom:24px}
+.hero-title .w1{font-size:clamp(55px,9vw,110px);color:var(--white)}
+.hero-title .w2{font-size:clamp(65px,11vw,130px);color:var(--orange);
+  text-shadow:0 0 60px rgba(255,107,0,.5),0 0 120px rgba(255,107,0,.25)}
+.hero-desc{color:var(--muted);font-size:15px;letter-spacing:3px;text-transform:uppercase;max-width:600px}
+.hero-scroll{margin-top:40px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.pill{background:transparent;border:1px solid #2A2A2A;color:var(--muted);
+  padding:7px 18px;border-radius:20px;font-size:13px;font-weight:600;letter-spacing:1px}
+
+.brands-section{padding:10px 50px 60px}
+.sec-head{text-align:center;margin-bottom:44px}
+.sec-title{font-family:'Bebas Neue',cursive;font-size:48px;letter-spacing:4px;
+  color:var(--white);line-height:1}
+.sec-title span{color:var(--orange)}
+.sec-sub{color:var(--muted);font-size:12px;letter-spacing:4px;text-transform:uppercase;
+  margin-top:8px}
+.divider{width:60px;height:2px;background:var(--orange);margin:12px auto 0}
+
+.brands-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:16px;max-width:1500px;margin:0 auto;
+}
+@media(max-width:1200px){.brands-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.brands-grid{grid-template-columns:repeat(2,1fr)}}
+
+.brand-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;cursor:pointer;position:relative;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+}
+.brand-card:hover{
+  border-color:var(--orange);transform:translateY(-10px);
+  box-shadow:0 24px 70px rgba(255,107,0,.28);
+}
+.brand-img-wrap{height:230px;overflow:hidden;position:relative}
+.brand-img{width:100%;height:100%;object-fit:cover;
+  transition:transform .55s ease;display:block;
+  filter:brightness(.85) saturate(1.1)}
+.brand-card:hover .brand-img{transform:scale(1.1);filter:brightness(.9) saturate(1.2)}
+.brand-img-wrap::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(transparent 35%,rgba(0,0,0,.85) 100%);
+}
+.brand-card-body{padding:18px 18px 16px;position:relative}
+.brand-card-body::before{content:'';position:absolute;top:0;left:18px;right:18px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.bc-name{font-family:'Bebas Neue',cursive;font-size:30px;letter-spacing:3px;color:var(--white)}
+.bc-origin{color:var(--orange);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+.bc-desc{color:var(--muted);font-size:13px;margin-top:4px;font-style:italic}
+.bc-count{
+  display:inline-block;margin-top:12px;background:rgba(255,107,0,.12);
+  color:var(--orange);font-size:12px;font-weight:700;letter-spacing:2px;
+  padding:4px 12px;border-radius:20px;border:1px solid rgba(255,107,0,.25);
+}
+.brand-badge-wrap{position:absolute;top:14px;left:14px;z-index:2}
+.brand-flag{background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,107,0,.3);border-radius:6px;
+  padding:4px 10px;color:var(--orange);font-size:11px;font-weight:700;letter-spacing:2px}
+.brand-arrow-btn{
+  position:absolute;top:14px;right:14px;z-index:2;
+  width:34px;height:34px;border-radius:50%;
+  background:var(--orange);display:flex;align-items:center;justify-content:center;
+  font-size:16px;opacity:0;transition:opacity .3s;
+}
+.brand-card:hover .brand-arrow-btn{opacity:1}
+
+.page-header{
+  background:linear-gradient(180deg,#131313 0%,#0E0E0E 100%);
+  padding:22px 50px;display:flex;align-items:center;gap:20px;
+  border-bottom:2px solid var(--orange);
+  position:sticky;top:36px;z-index:100;
+}
+.back-btn{
+  background:transparent;border:1.5px solid var(--orange);color:var(--orange);
+  padding:8px 22px;border-radius:6px;cursor:pointer;
+  font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;transition:all .2s;flex-shrink:0;
+}
+.back-btn:hover{background:var(--orange);color:#fff}
+.ph-title{font-family:'Bebas Neue',cursive;font-size:42px;letter-spacing:4px;color:var(--white)}
+.ph-title em{color:var(--orange);font-style:normal}
+.ph-sub{color:var(--muted);font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-left:auto}
+
+.models-section{padding:40px 50px 60px;max-width:1600px;margin:0 auto}
+.models-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px}
+
+.model-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;cursor:pointer;transition:all .3s;position:relative;
+  user-select:none;
+}
+.model-card:hover{
+  border-color:var(--orange);transform:translateY(-7px);
+  box-shadow:0 20px 55px rgba(255,107,0,.22);
+}
+.model-card:active{transform:translateY(-3px)}
+.mc-img-wrap{height:195px;overflow:hidden;position:relative}
+.mc-img{width:100%;height:100%;object-fit:cover;transition:transform .5s;
+  filter:brightness(.9) saturate(1.05)}
+.model-card:hover .mc-img{transform:scale(1.07);filter:brightness(.95) saturate(1.15)}
+.mc-cat{
+  position:absolute;top:10px;left:10px;z-index:2;
+  background:var(--orange);color:#fff;font-size:10px;font-weight:700;
+  letter-spacing:2px;padding:4px 10px;border-radius:4px;text-transform:uppercase;
+}
+.mc-hint{
+  position:absolute;top:10px;right:10px;z-index:2;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
+  color:var(--muted);font-size:9px;letter-spacing:1px;
+  padding:4px 8px;border-radius:4px;text-transform:uppercase;
+  border:1px solid #333;transition:all .3s;
+}
+.model-card:hover .mc-hint{color:var(--orange);border-color:rgba(255,107,0,.4)}
+.mc-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:linear-gradient(transparent,rgba(0,0,0,.5))}
+.mc-body{padding:18px}
+.mc-name{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;color:var(--white);margin-bottom:4px}
+.mc-specs{color:var(--muted);font-size:12.5px;line-height:1.5;margin-bottom:14px}
+.mc-price-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.mc-price-lbl{color:var(--muted2);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700}
+.mc-price{font-family:'Bebas Neue',cursive;font-size:30px;color:var(--orange);letter-spacing:1px}
+.mc-price-cur{color:var(--muted);font-size:13px;margin-left:2px}
+.mc-price-usd{font-size:13px;color:var(--muted2);background:rgba(0,0,0,.4);padding:2px 8px;border-radius:16px}
+.mc-footer{
+  display:flex;gap:8px;padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.btn-primary{
+  flex:1;background:var(--orange);color:#fff;border:none;padding:10px;
+  border-radius:6px;cursor:pointer;font-family:'Rajdhani',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  transition:background .2s;
+}
+.btn-primary:hover{background:var(--orange-d)}
+.btn-ghost{
+  background:transparent;border:1px solid var(--border2);color:var(--muted);
+  padding:10px 14px;border-radius:6px;cursor:pointer;
+  font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:1px;
+  transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+
+.detail-wrap{padding:40px 50px 60px;max-width:1300px;margin:0 auto}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-bottom:50px}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr}}
+.detail-img-frame{position:relative;border-radius:14px;overflow:hidden;
+  border:2px solid var(--orange);box-shadow:0 0 40px rgba(255,107,0,.2)}
+.detail-img{width:100%;height:380px;object-fit:cover;display:block}
+.detail-img-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.85));
+  padding:30px 20px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.detail-cat-badge{background:var(--orange);color:#fff;font-size:11px;font-weight:700;
+  letter-spacing:2px;padding:4px 12px;border-radius:4px;text-transform:uppercase}
+.detail-year{color:var(--muted);font-size:13px;font-weight:700;letter-spacing:2px}
+
+.detail-info-col{}
+.detail-brand-line{color:var(--orange);font-size:12px;letter-spacing:4px;
+  text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.detail-model-name{font-family:'Bebas Neue',cursive;font-size:clamp(36px,5vw,60px);
+  letter-spacing:3px;line-height:.95;color:var(--white);margin-bottom:20px}
+.detail-price-box{
+  background:var(--card2);border:1px solid var(--orange);border-radius:10px;
+  padding:18px 22px;margin-bottom:22px;position:relative;overflow:hidden;
+}
+.detail-price-box::before{content:'';position:absolute;top:0;right:0;
+  width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,107,0,.04));
+  pointer-events:none}
+.dpb-label{color:var(--muted);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.dpb-price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.dpb-amount{font-family:'Bebas Neue',cursive;font-size:48px;color:var(--orange);letter-spacing:2px}
+.dpb-cur{color:var(--muted);font-size:16px}
+.dpb-usd{font-size:15px;background:rgba(0,0,0,.5);padding:4px 12px;border-radius:40px;color:#ccc}
+.dpb-note{color:var(--muted2);font-size:11px;margin-top:4px}
+
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:22px}
+.spec-row{display:contents}
+.spec-row>*{padding:10px 14px;border-bottom:1px solid var(--border)}
+.spec-row:last-child>*{border-bottom:none}
+.spec-key{background:var(--card2);color:var(--muted);font-size:12px;
+  letter-spacing:1px;text-transform:uppercase;font-weight:700;border-right:1px solid var(--border)}
+.spec-val{background:var(--card);color:var(--white);font-size:14px;font-weight:600}
+
+.official-btn{
+  width:100%;background:linear-gradient(135deg,var(--orange) 0%,var(--orange-d) 100%);
+  color:#fff;border:none;padding:16px 24px;border-radius:8px;cursor:pointer;
+  font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:3px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.official-btn::before{content:'';position:absolute;top:0;left:-100%;
+  width:100%;height:100%;background:rgba(255,255,255,.1);transition:left .4s}
+.official-btn:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(255,107,0,.5)}
+.official-btn:hover::before{left:100%}
+.official-btn-note{text-align:center;color:var(--muted2);font-size:11px;
+  letter-spacing:2px;margin-top:8px;text-transform:uppercase}
+
+.forum-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+}
+.forum-head{
+  background:linear-gradient(135deg,#181818,#111);
+  padding:18px 26px;border-bottom:2px solid var(--orange);
+  display:flex;align-items:center;gap:14px;
+}
+.forum-head-icon{font-size:22px}
+.forum-head-title{font-family:'Bebas Neue',cursive;font-size:30px;letter-spacing:3px;color:var(--white)}
+.forum-head-sub{color:var(--muted);font-size:12px;letter-spacing:2px;margin-left:auto;text-transform:uppercase}
+.forum-msgs{padding:20px;min-height:200px;max-height:420px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:14px}
+.forum-empty{text-align:center;padding:50px 20px;color:var(--muted);
+  font-size:15px;letter-spacing:1px}
+.forum-empty-icon{font-size:36px;display:block;margin-bottom:12px}
+.msg{
+  background:var(--card2);border:1px solid var(--border);border-radius:8px;
+  padding:14px 16px;animation:msgSlide .3s ease;
+}
+.msg.own{border-color:rgba(255,107,0,.3);background:rgba(255,107,0,.04)}
+@keyframes msgSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-top{display:flex;justify-content:space-between;margin-bottom:7px}
+.msg-user{color:var(--orange);font-weight:700;font-size:13px;letter-spacing:1px}
+.msg-time{color:var(--muted2);font-size:11px;letter-spacing:.5px}
+.msg-text{color:#DDD;font-size:15px;line-height:1.55}
+.forum-compose{padding:20px 24px;background:var(--card2);border-top:1px solid var(--border)}
+.compose-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
+.compose-label{color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  font-weight:700;flex-shrink:0}
+.f-input{
+  background:var(--black);border:1px solid var(--border2);border-radius:6px;
+  padding:10px 14px;color:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;
+  transition:border-color .2s;flex:1;
+}
+.f-input:focus{outline:none;border-color:var(--orange)}
+.f-input::placeholder{color:var(--muted2)}
+.f-textarea{
+  width:100%;background:var(--black);border:1px solid var(--border2);border-radius:6px;
+  padding:10px 14px;color:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;
+  resize:vertical;min-height:80px;transition:border-color .2s;
+}
+.f-textarea:focus{outline:none;border-color:var(--orange)}
+.f-textarea::placeholder{color:var(--muted2)}
+.compose-bottom{display:flex;gap:10px;align-items:flex-end}
+.f-send{
+  background:var(--orange);color:#fff;border:none;padding:12px 28px;border-radius:6px;
+  cursor:pointer;font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:2px;
+  transition:background .2s;flex-shrink:0;align-self:flex-end;
+}
+.f-send:hover{background:var(--orange-d)}
+.compose-stats{color:var(--muted);font-size:12px;letter-spacing:1px}
+
+.toast{
+  position:fixed;bottom:28px;right:28px;z-index:9999;
+  background:var(--card);border:1px solid var(--orange);border-left:4px solid var(--orange);
+  color:#fff;padding:14px 22px;border-radius:8px;font-size:14px;font-weight:600;
+  letter-spacing:1px;box-shadow:0 10px 35px rgba(0,0,0,.6);
+  animation:toastIn .3s ease;display:none;max-width:320px;
+}
+@keyframes toastIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+.spin{width:18px;height:18px;border:2px solid #222;border-top-color:var(--orange);
+  border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.site-footer{
+  background:var(--dark);border-top:1px solid #1A1A1A;padding:28px 50px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-logo{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:3px;color:var(--orange)}
+.footer-text{color:var(--muted2);font-size:12px;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<div id="currencyBar">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="tick-item"><span class="spin"></span>&nbsp;<span style="color:var(--muted);font-size:12px;letter-spacing:2px">DÖVİZ KURLARI YÜKLENİYOR...</span></div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="logo" onclick="showPage('home')">Moto<span style="-webkit-text-fill-color:var(--white)">Türk</span></div>
+  <div class="header-right">
+    <span class="header-tag">🏍️ Türkiye'nin Moto Merkezi</span>
+    <span class="header-badge">2026</span>
+  </div>
+</header>
+
+<div id="homePage" class="page active">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"><div class="hero-line"></div><div class="hero-line"></div><div class="hero-line"></div></div>
+    <div class="hero-content">
+      <div class="hero-sup">Türkiye'nin En Kapsamlı Moto Rehberi</div>
+      <div class="hero-title">
+        <div class="w1">TÜRKİYE'NİN</div>
+        <div class="w2">MOTO DÜNYASI</div>
+      </div>
+      <p class="hero-desc">Güncel Fiyatlar · Tüm Modeller · Canlı Forum · Resmi Site</p>
+      <div class="hero-scroll">
+        <span class="pill">🇯🇵 Japon Markalar</span>
+        <span class="pill">🇮🇹 İtalyan Markalar</span>
+        <span class="pill">📊 Güncel 2025 Fiyatları</span>
+        <span class="pill">💬 Aktif Forum</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="brands-section">
+    <div class="sec-head">
+      <div class="sec-title">MARKA <span>SEÇİN</span></div>
+      <div class="divider"></div>
+      <div class="sec-sub">Keşfetmek istediğiniz markayı tıklayın</div>
+    </div>
+    <div class="brands-grid" id="brandsGrid"></div>
+  </div>
+</div>
+
+<div id="brandPage" class="page">
+  <div class="page-header">
+    <button class="back-btn" onclick="showPage('home')">← Ana Sayfa</button>
+    <div>
+      <div class="ph-title" id="brandPageTitle">HONDA <em>MODELLERİ</em></div>
+    </div>
+    <div class="ph-sub" id="brandPageSub">5 Model</div>
+  </div>
+  <div class="models-section">
+    <div class="models-grid" id="modelsGrid"></div>
+  </div>
+</div>
+
+<div id="modelPage" class="page">
+  <div class="page-header">
+    <button class="back-btn" id="modelBackBtn">← Modeller</button>
+    <div>
+      <div class="ph-title" id="modelPageTitle">MODEL <em>DETAY</em></div>
+    </div>
+    <div class="ph-sub">Forum & Teknik Bilgiler</div>
+  </div>
+  <div class="detail-wrap">
+    <div class="detail-grid">
+      <div>
+        <div class="detail-img-frame">
+          <img id="detailImg" class="detail-img" src="" alt="" loading="lazy">
+          <div class="detail-img-caption">
+            <span class="detail-cat-badge" id="detailCat"></span>
+            <span class="detail-year" id="detailYear"></span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-info-col">
+        <div class="detail-brand-line" id="detailBrandLine"></div>
+        <div class="detail-model-name" id="detailName"></div>
+        <div class="detail-price-box">
+          <div class="dpb-label">Güncel Önerilen Perakende Fiyatı</div>
+          <div class="dpb-price">
+            <span class="dpb-amount" id="detailPriceTL"></span>
+            <span class="dpb-cur">TL</span>
+            <span class="dpb-usd" id="detailPriceUSD"></span>
+          </div>
+          <div class="dpb-note">* 2025 yılı tahmini fiyat – KDV dahil | USD karşılığı canlı kur ile hesaplanır</div>
+        </div>
+        <div class="specs-grid" id="specsGrid"></div>
+        <button class="official-btn" id="officialBtn" ondblclick="goToOfficialSite()">
+          🌐 <span>RESMİ SİTEYE GİT</span>
+        </button>
+        <p class="official-btn-note">⚡ Resmi siteye gitmek için çift tıklayın</p>
+      </div>
+    </div>
+
+    <div class="forum-card">
+      <div class="forum-head">
+        <span class="forum-head-icon">💬</span>
+        <div class="forum-head-title">FORUM & TARTIŞMA</div>
+        <div class="forum-head-sub" id="forumModelLabel">Model Forum</div>
+      </div>
+      <div class="forum-msgs" id="forumMsgs">
+        <div class="forum-empty"><span class="forum-empty-icon">🏍️</span>Henüz yorum yok. İlk yorumu sen yap!</div>
+      </div>
+      <div class="forum-compose">
+        <div class="compose-row">
+          <span class="compose-label">Ad:</span>
+          <input class="f-input" id="fUsername" type="text" placeholder="Kullanıcı adın..." value="Moto_Fan" style="max-width:220px">
+          <span class="compose-stats" id="forumCount"></span>
+        </div>
+        <div class="compose-bottom">
+          <textarea class="f-textarea" id="fText" placeholder="Bu model hakkında görüşlerinizi paylaşın..."></textarea>
+          <button class="f-send" onclick="sendMsg()">GÖNDER</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="site-footer">
+  <div class="footer-logo">MotoTürk</div>
+  <p class="footer-text">© 2026 MotoTürkiye · İçerik Yönetim Sistemleri Dersi Projesi</p>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  DATA with UNIQUE and WORKING IMAGES for each model
+// ════════════════════════════════════════════════════════════
+const BRANDS = [
+{
+  id:'honda', name:'Honda', origin:'Japonya 🇯🇵', desc:'Dünyanın en büyük motosiklet üreticisi',
+  img: "https://i.pinimg.com/474x/06/56/c6/0656c6b60c63e33177faefb31d3379d9.jpg",
+  site:'https://www.honda.com.tr',
+  models:[
+    {id:'cb650r', name:'CB650R', cat:'Naked', price:'348000', yr:'2025', eng:'648cc 4 Silindir', pwr:'95 HP', wt:'202 kg',
+     img:'https://images.unsplash.com/photo-1722590398650-a5d226c3d904?q=80&w=1974&auto',
+     specs:{'Motor':'648cc 4 Silindir DOHC','Güç':'95 HP @ 12.000 rpm','Tork':'64 Nm','Ağırlık':'202 kg','Tank':'15,4 L','ABS':'Çift Kanallı'}},
+    {id:'cbr1000rr', name:'CBR1000RR-R', cat:'Supersport', price:'849000', yr:'2025', eng:'999.9cc 4 Silindir', pwr:'217 HP', wt:'201 kg',
+     img:'https://images.unsplash.com/photo-1653064098555-ae5a6e81ec05?w=600&auto=format',
+     specs:{'Motor':'999.9cc 4 Sil.','Güç':'217 HP','Tork':'113 Nm','Ağırlık':'201 kg','Tank':'16,1 L','Elektronik':'Selectable TC'}},
+    {id:'africatwin', name:'Africa Twin', cat:'Adventure', price:'589000', yr:'2025', eng:'1084cc Parallel Twin', pwr:'102 HP', wt:'226 kg',
+     img:'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=900&auto=format',
+     specs:{'Motor':'1084cc Paralel İkili','Güç':'102 HP','Tork':'105 Nm','Ağırlık':'226 kg','Tank':'24,8 L','ABS':'Çift Kanal'}},
+    {id:'cb125r', name:'CB125R', cat:'Naked', price:'178000', yr:'2025', eng:'124.7cc Tek', pwr:'15 HP', wt:'127 kg',
+     img:'https://images.unsplash.com/photo-1648779676144-a36f13afda9e?w=600&auto=format',
+     specs:{'Motor':'124.7cc DOHC','Güç':'15 HP','Tork':'12 Nm','Ağırlık':'127 kg','Tank':'10,1 L','ABS':'Tek Kanallı'}},
+    {id:'forza350', name:'Forza 350', cat:'Scooter', price:'265000', yr:'2025', eng:'350cc SOHC', pwr:'29 HP', wt:'185 kg',
+     img:'https://images.unsplash.com/photo-1756987488673-f2e1cd47e588?w=600&auto=format',
+     specs:{'Motor':'350cc SOHC','Güç':'29 HP','Tork':'32 Nm','Ağırlık':'185 kg','Tank':'11,5 L','ABS':'Çift Kanallı'}}
+  ]
+},
+{
+  id:'yamaha', name:'Yamaha', origin:'Japonya 🇯🇵', desc:'Revs Your Heart',
+  img:'https://images.unsplash.com/photo-1620937843955-a177ceba979e?w=600&auto=forma',
+  site:'https://www.yamaha-motor.com.tr',
+  models:[
+    {id:'mt07', name:'MT-07', cat:'Hyper Naked', price:'365000', yr:'2025', eng:'689cc CP2', pwr:'73 HP', wt:'193 kg',
+     img:'https://images.unsplash.com/photo-1638289394195-64e572399560?w=600&auto=format',
+     specs:{'Motor':'689cc CP2','Güç':'73 HP','Tork':'68 Nm','Ağırlık':'193 kg','Tank':'13 L','ABS':'Çift Kanallı'}},
+    {id:'r1', name:'YZF-R1', cat:'Supersport', price:'895000', yr:'2025', eng:'998cc Crossplane', pwr:'200 HP', wt:'201 kg',
+     img:'https://images.unsplash.com/photo-1690975954769-c7a12c957ac5?w=600&auto=format',
+     specs:{'Motor':'998cc Crossplane','Güç':'200 HP','Tork':'113 Nm','Ağırlık':'201 kg','Tank':'17 L','ABS':'Cornering ABS'}},
+    {id:'tracer9', name:'Tracer 9 GT+', cat:'Sport Touring', price:'548000', yr:'2025', eng:'890cc CP3', pwr:'119 HP', wt:'220 kg',
+     img:'https://images.unsplash.com/photo-1658834959650-54b48aafdf6a?w=600&auto=format',
+     specs:{'Motor':'890cc CP3','Güç':'119 HP','Tork':'93 Nm','Ağırlık':'220 kg','Tank':'18 L','ABS':'Adaptive'}},
+    {id:'nmax125', name:'NMAX 125', cat:'Scooter', price:'148000', yr:'2025', eng:'125cc VVA', pwr:'15 HP', wt:'132 kg',
+     img:'https://images.unsplash.com/photo-1624950207310-a0d766111a24?w=600&auto=format',
+     specs:{'Motor':'125cc VVA','Güç':'15 HP','Tork':'11.7 Nm','Ağırlık':'132 kg','Tank':'7,1 L','ABS':'Tek Kanallı'}},
+    {id:'tenere700', name:'Ténéré 700', cat:'Adventure', price:'498000', yr:'2025', eng:'689cc CP2', pwr:'73 HP', wt:'204 kg',
+     img:'https://plus.unsplash.com/premium_photo-1661870277562-53f9b176fc75?w=600&auto=format',
+     specs:{'Motor':'689cc CP2','Güç':'73 HP','Tork':'68 Nm','Ağırlık':'204 kg','Tank':'16 L','ABS':'Off-Road'}}
+  ]
+},
+{
+  id:'kawasaki', name:'Kawasaki', origin:'Japonya 🇯🇵', desc:'Let the Good Times Roll',
+  img:'https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=900&auto=format',
+  site:'https://www.kawasaki.com.tr',
+  models:[
+    {id:'ninja650', name:'Ninja 650', cat:'Sport', price:'348000', yr:'2025', eng:'649cc Parallel', pwr:'67 HP', wt:'196 kg',
+     img:'https://images.unsplash.com/photo-1607187488541-0ee24bd99a73?w=600&auto=format',
+     specs:{'Motor':'649cc Paralel','Güç':'67 HP','Tork':'65.7 Nm','Ağırlık':'196 kg','Tank':'15 L','ABS':'Çift Kanallı'}},
+    {id:'z900', name:'Z900', cat:'Naked', price:'465000', yr:'2025', eng:'948cc 4 Sil.', pwr:'125 HP', wt:'214 kg',
+     img:'https://images.unsplash.com/photo-1597497287565-a38cfaa4e762?w=600&auto=format',
+     specs:{'Motor':'948cc 4 Sil.','Güç':'125 HP','Tork':'98.6 Nm','Ağırlık':'214 kg','Tank':'17 L','ABS':'Çift Kanallı'}},
+    {id:'zx10r', name:'Ninja ZX-10R', cat:'Supersport', price:'862000', yr:'2025', eng:'998cc DOHC', pwr:'203 HP', wt:'207 kg',
+     img:'https://images.unsplash.com/photo-1565716694049-ae576409b9d8?w=600&auto=format',
+     specs:{'Motor':'998cc DOHC','Güç':'203 HP','Tork':'114.9 Nm','Ağırlık':'207 kg','Tank':'17 L','ABS':'KIBS'}},
+    {id:'versys650', name:'Versys 650', cat:'Adventure', price:'398000', yr:'2025', eng:'649cc Parallel', pwr:'69 HP', wt:'217 kg',
+     img:'https://images.unsplash.com/photo-1590498886106-6f44f039f87f?w=600&auto=format',
+     specs:{'Motor':'649cc Paralel','Güç':'69 HP','Tork':'63 Nm','Ağırlık':'217 kg','Tank':'21 L','ABS':'Çift Kanallı'}},
+    {id:'z400', name:'Z400', cat:'Naked', price:'268000', yr:'2025', eng:'399cc Parallel', pwr:'45 HP', wt:'167 kg',
+     img:'https://plus.unsplash.com/premium_photo-1664303751783-e18caf8f609d?w=600&auto=format',
+     specs:{'Motor':'399cc Paralel','Güç':'45 HP','Tork':'37 Nm','Ağırlık':'167 kg','Tank':'14 L','ABS':'Çift Kanallı'}}
+  ]
+},
+{
+  id:'suzuki', name:'Suzuki', origin:'Japonya 🇯🇵', desc:'Way of Life!',
+  img:'https://images.unsplash.com/photo-1769539180804-017d1ed447a8?w=600&auto=format',
+  site:'https://www.suzuki.com.tr',
+  models:[
+    {id:'gsxs750', name:'GSX-S750', cat:'Naked', price:'372000', yr:'2025', eng:'749cc 4 Sil.', pwr:'105 HP', wt:'213 kg',
+     img:'https://images.unsplash.com/photo-1559913516-d47b38fab290?w=600&auto=format',
+     specs:{'Motor':'749cc 4 Sil.','Güç':'105 HP','Tork':'81 Nm','Ağırlık':'213 kg','Tank':'16 L','ABS':'Çift Kanallı'}},
+    {id:'vstrom650', name:'V-Strom 650', cat:'Adventure', price:'415000', yr:'2025', eng:'645cc V-Twin', pwr:'71 HP', wt:'213 kg',
+     img:'https://images.unsplash.com/photo-1579027339191-257e4e619663?w=600&auto=format',
+     specs:{'Motor':'645cc V-Twin','Güç':'71 HP','Tork':'62 Nm','Ağırlık':'213 kg','Tank':'20 L','Elektronik':'ABS+TC'}},
+    {id:'gsxr1000', name:'GSX-R1000', cat:'Supersport', price:'798000', yr:'2025', eng:'999.8cc 4 Sil.', pwr:'202 HP', wt:'203 kg',
+     img:'https://images.unsplash.com/photo-1741960108112-df09addd3c4b?w=600&auto=format',
+     specs:{'Motor':'999.8cc 4 Sil.','Güç':'202 HP','Tork':'117.6 Nm','Ağırlık':'203 kg','Tank':'16 L','Elektronik':'SDMS-α'}},
+    {id:'burgman400', name:'Burgman 400', cat:'Scooter', price:'315000', yr:'2025', eng:'400cc DOHC', pwr:'31 HP', wt:'218 kg',
+     img:'https://images.unsplash.com/photo-1624531681012-09dfa45a2135?w=600&auto=format',
+     specs:{'Motor':'400cc DOHC','Güç':'31 HP','Tork':'38 Nm','Ağırlık':'218 kg','Tank':'13 L','ABS':'Çift Kanallı'}},
+    {id:'sv650', name:'SV650', cat:'Naked', price:'338000', yr:'2025', eng:'645cc V-Twin', pwr:'75 HP', wt:'197 kg',
+     img:'https://images.unsplash.com/photo-1636888973955-6d52d5776b3e?w=600&auto=format',
+     specs:{'Motor':'645cc V-Twin','Güç':'75 HP','Tork':'64 Nm','Ağırlık':'197 kg','Tank':'14,5 L','ABS':'Çift Kanallı'}}
+  ]
+},
+{
+  id:'ducati', name:'Ducati', origin:'İtalya 🇮🇹', desc:'Born to Race',
+  img:'https://images.unsplash.com/photo-1608461687992-22f3b17ac636?w=600&auto=format',
+  site:'https://www.ducati.com/tr/tr/home',
+  models:[
+    {id:'monster', name:'Monster', cat:'Naked', price:'498000', yr:'2025', eng:'937cc L-Twin', pwr:'111 HP', wt:'188 kg',
+     img:'https://images.unsplash.com/photo-1610579552025-ea146ae69356?w=600&auto=format',
+     specs:{'Motor':'937cc L-Twin','Güç':'111 HP','Tork':'93 Nm','Ağırlık':'188 kg','Tank':'14 L','ABS':'Cornering'}},
+    {id:'paniglev4', name:'Panigale V4', cat:'Supersport', price:'1195000', yr:'2025', eng:'1103cc V4', pwr:'214 HP', wt:'198 kg',
+     img:'https://images.unsplash.com/photo-1649918222206-816bff580855?w=600&auto=format',
+     specs:{'Motor':'1103cc V4','Güç':'214 HP','Tork':'124 Nm','Ağırlık':'198 kg','Tank':'16 L','Elektronik':'EVO ABS'}},
+    {id:'multistrada', name:'Multistrada V4', cat:'Adventure', price:'945000', yr:'2025', eng:'1158cc V4', pwr:'170 HP', wt:'243 kg',
+     img:'https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?w=600&auto=format',
+     specs:{'Motor':'1158cc V4','Güç':'170 HP','Tork':'125 Nm','Ağırlık':'243 kg','Tank':'22 L','Elektronik':'Radar+ABS'}},
+    {id:'scrambler', name:'Scrambler Icon', cat:'Scrambler', price:'438000', yr:'2025', eng:'803cc L-Twin', pwr:'73 HP', wt:'186 kg',
+     img:'https://images.unsplash.com/photo-1568772585432-0bcd9add44f5?w=600&auto=format',
+     specs:{'Motor':'803cc Hava Soğutmalı','Güç':'73 HP','Tork':'65.8 Nm','Ağırlık':'186 kg','Tank':'13,5 L','ABS':'Çift Kanallı'}},
+    {id:'diavel', name:'Diavel V4', cat:'Cruiser', price:'1085000', yr:'2025', eng:'1158cc V4', pwr:'168 HP', wt:'241 kg',
+     img:'https://images.unsplash.com/photo-1632157256334-518122d788bd?w=600&auto=format',
+     specs:{'Motor':'1158cc V4','Güç':'168 HP','Tork':'128 Nm','Ağırlık':'241 kg','Tank':'17 L','Elektronik':'Cornering ABS'}}
+  ]
+}
+];
+
+// ════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════
+let curBrand = null, curModel = null;
+let usdTryRate = 38.50; // fallback rate
+
+// ════════════════════════════════════════════════════════════
+//  CURRENCY (USD/TRY)
+// ════════════════════════════════════════════════════════════
+async function loadCurrency() {
+  try {
+    const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=TRY');
+    const data = await res.json();
+    if (data.rates && data.rates.TRY) {
+      usdTryRate = data.rates.TRY;
+    }
+  } catch(e) { console.warn("Kur alınamadı, varsayılan kullanılacak"); }
+  updateAllUSDPrices();
+  updateTicker();
+}
+
+function updateTicker() {
+  const items = [
+    {flag:'🇺🇸', lbl:'USD / TRY', val:usdTryRate.toFixed(2), chg:'', up:true},
+    {flag:'🇪🇺', lbl:'EUR / TRY', val:(usdTryRate*1.08).toFixed(2), chg:'', up:true},
+    {flag:'🇬🇧', lbl:'GBP / TRY', val:(usdTryRate*1.24).toFixed(2), chg:'', up:false},
+    {flag:'📅', lbl:'Güncelleme', val:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}), chg:'', up:true},
+  ];
+  const all = [...items, ...items, ...items];
+  document.getElementById('tickerTrack').innerHTML = all.map(c=>`
+    <div class="tick-item">
+      <span class="tick-flag">${c.flag}</span>
+      <span class="tick-label">${c.lbl}</span>
+      <span class="tick-val">${c.val} ₺</span>
+      ${c.chg?`<span class="tick-chg ${c.up?'up':'dn'}">${c.chg}</span>`:''}
+    </div>
+  `).join('');
+}
+
+function updateAllUSDPrices() {
+  // Update all visible USD prices on cards (if brand page active) and detail page
+  const brandPageActive = document.getElementById('brandPage').classList.contains('active');
+  if (brandPageActive && curBrand) {
+    renderBrandModels(curBrand); // re-render to update USD
+  }
+  if (curModel && document.getElementById('modelPage').classList.contains('active')) {
+    updateDetailUSD();
+  }
+}
+
+function updateDetailUSD() {
+  if (curModel) {
+    const tl = parseFloat(curModel.price);
+    const usd = (tl / usdTryRate).toFixed(0);
+    document.getElementById('detailPriceUSD').innerHTML = `≈ ${usd} USD`;
+  }
+}
+
+function getUSDPrice(tlPrice) {
+  return (parseFloat(tlPrice) / usdTryRate).toFixed(0);
+}
+
+// ════════════════════════════════════════════════════════════
+//  RENDER FUNCTIONS
+// ════════════════════════════════════════════════════════════
+function renderBrands(){
+  document.getElementById('brandsGrid').innerHTML = BRANDS.map(b=>`
+    <div class="brand-card" onclick="showBrand('${b.id}')">
+      <div class="brand-img-wrap">
+        <img class="brand-img" src="${b.img}" alt="${b.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900'">
+        <div class="brand-badge-wrap"><div class="brand-flag">${b.origin}</div></div>
+        <div class="brand-arrow-btn">→</div>
+      </div>
+      <div class="brand-card-body">
+        <div class="bc-name">${b.name}</div>
+        <div class="bc-origin">${b.origin}</div>
+        <div class="bc-desc">${b.desc}</div>
+        <div class="bc-count">${b.models.length} Model Mevcut</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showBrand(brandId){
+  curBrand = BRANDS.find(b=>b.id===brandId);
+  if(!curBrand) return;
+  renderBrandModels(curBrand);
+  showPage('brand');
+}
+
+function renderBrandModels(brand) {
+  document.getElementById('brandPageTitle').innerHTML = `${brand.name} <em>MODELLERİ</em>`;
+  document.getElementById('brandPageSub').textContent = brand.models.length + ' Model';
+  document.getElementById('modelsGrid').innerHTML = brand.models.map(m=>{
+    const usdPrice = getUSDPrice(m.price);
+    return `
+    <div class="model-card" onclick="handleModelClick(event,'${brand.id}','${m.id}')">
+      <div class="mc-img-wrap">
+        <img class="mc-img" src="${m.img}" alt="${m.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900'">
+        <div class="mc-cat">${m.cat}</div>
+        <div class="mc-hint">2× tıkla = Resmi Site</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-name">${m.name}</div>
+        <div class="mc-specs">${m.eng} &nbsp;·&nbsp; ${m.pwr} &nbsp;·&nbsp; ${m.yr}</div>
+        <div class="mc-price-row">
+          <span class="mc-price-lbl">Fiyat</span>
+          <span class="mc-price">${parseInt(m.price).toLocaleString('tr-TR')}</span>
+          <span class="mc-price-cur">TL</span>
+          <span class="mc-price-usd">≈ ${usdPrice} USD</span>
+        </div>
+        <div class="mc-footer">
+          <button class="btn-primary" onclick="event.stopPropagation();showModel('${brand.id}','${m.id}')">Detay & Forum</button>
+          <button class="btn-ghost" onclick="event.stopPropagation();openSite('${brand.id}')">🌐 Site</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+const _ct = {};
+function handleModelClick(e, brandId, modelId){
+  const key = brandId+'_'+modelId;
+  _ct[key] = (_ct[key]||0)+1;
+  if(_ct[key]===1){
+    _ct[key+'_timer'] = setTimeout(()=>{
+      _ct[key]=0;
+      showModel(brandId, modelId);
+    },280);
+  } else {
+    clearTimeout(_ct[key+'_timer']);
+    _ct[key]=0;
+    const b = BRANDS.find(x=>x.id===brandId);
+    if(b){ showToast('🌐 '+b.name+' resmi sitesine yönlendiriliyorsunuz...');
+      setTimeout(()=>window.open(b.site,'_blank'),500); }
+  }
+}
+
+function openSite(brandId){
+  const b = BRANDS.find(x=>x.id===brandId);
+  if(b){ showToast('🌐 '+b.name+' resmi sitesine yönlendiriliyorsunuz...');
+    setTimeout(()=>window.open(b.site,'_blank'),500); }
+}
+
+function showModel(brandId, modelId){
+  curBrand = BRANDS.find(b=>b.id===brandId);
+  curModel = curBrand?.models.find(m=>m.id===modelId);
+  if(!curBrand||!curModel) return;
+
+  document.getElementById('modelPageTitle').innerHTML = `${curModel.name} <em>DETAY</em>`;
+  document.getElementById('modelBackBtn').onclick = ()=>showBrand(brandId);
+  document.getElementById('detailBrandLine').textContent = curBrand.name.toUpperCase()+' · '+curModel.cat.toUpperCase();
+  document.getElementById('detailName').textContent = curModel.name;
+  document.getElementById('detailPriceTL').innerHTML = parseInt(curModel.price).toLocaleString('tr-TR');
+  updateDetailUSD();
+  document.getElementById('detailCat').textContent = curModel.cat;
+  document.getElementById('detailYear').textContent = curModel.yr+' Model';
+  document.getElementById('forumModelLabel').textContent = curBrand.name+' '+curModel.name;
+  const img = document.getElementById('detailImg');
+  img.src = curModel.img;
+  img.alt = curModel.name;
+  img.onerror = function(){ this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900'; };
+
+  document.getElementById('specsGrid').innerHTML = Object.entries(curModel.specs).map(([k,v])=>`
+    <div class="spec-row"><div class="spec-key">${k}</div><div class="spec-val">${v}</div></div>
+  `).join('');
+
+  loadForum(`${brandId}_${modelId}`);
+  showPage('model');
+}
+
+function goToOfficialSite(){
+  if(curBrand){
+    showToast('🌐 '+curBrand.name+' resmi sitesine yönlendiriliyorsunuz...');
+    setTimeout(()=>window.open(curBrand.site,'_blank'),500);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  FORUM
+// ════════════════════════════════════════════════════════════
+let _forumKey = '';
+function loadForum(key){
+  _forumKey = key;
+  const msgs = getFMsgs(key);
+  const container = document.getElementById('forumMsgs');
+  if(!msgs.length){
+    container.innerHTML='<div class="forum-empty"><span class="forum-empty-icon">🏍️</span>Henüz yorum yok. İlk yorumu sen yap!</div>';
+  } else {
+    container.innerHTML = msgs.map(m=>`
+      <div class="msg ${m.own?'own':''}">
+        <div class="msg-top"><span class="msg-user">@${escHtml(m.user)}</span><span class="msg-time">${m.time}</span></div>
+        <div class="msg-text">${escHtml(m.text)}</div>
+      </div>
+    `).join('');
+    container.scrollTop=container.scrollHeight;
+  }
+  document.getElementById('forumCount').textContent = msgs.length ? msgs.length+' yorum' : '';
+}
+
+function getFMsgs(k){
+  try{return JSON.parse(localStorage.getItem('mf_'+k)||'[]')}catch{return[]}
+}
+function saveFMsg(k,msg){
+  const a=getFMsgs(k); a.push(msg);
+  localStorage.setItem('mf_'+k,JSON.stringify(a));
+}
+
+function sendMsg(){
+  const user = document.getElementById('fUsername').value.trim()||'Misafir';
+  const text = document.getElementById('fText').value.trim();
+  if(!text){showToast('⚠️ Mesaj boş olamaz!');return;}
+  const now=new Date();
+  const time=now.toLocaleDateString('tr-TR')+' '+now.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  saveFMsg(_forumKey,{user,text,time,own:true});
+  document.getElementById('fText').value='';
+  loadForum(_forumKey);
+  showToast('✅ Mesajınız gönderildi!');
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.ctrlKey && e.key==='Enter' && document.getElementById('modelPage').classList.contains('active')) sendMsg();
+});
+
+function escHtml(s){
+  return String(s).replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m; });
+}
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const map={home:'homePage',brand:'brandPage',model:'modelPage'};
+  document.getElementById(map[name])?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='brand' && curBrand) renderBrandModels(curBrand);
+  if(name==='model' && curModel) updateDetailUSD();
+}
+
+let _toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.display='block';
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.style.display='none',3200);
+}
+
+renderBrands();
+loadCurrency();
+setInterval(loadCurrency, 60000);
+</script>
+</body>
+</html>
